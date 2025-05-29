@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>BIENVENIDO JOSEPH A WEBSOCKET</title>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>BIENVENIDO JOSEPH A WEBSOCKET</h1>
+    <input type="text" id="mensaje" placeholder="Escribe tu mensaje">
+    <button onclick="enviarMensaje()">Enviar</button>
+    <pre id="salida"></pre>
+
+   <script>
+    
+    const socket = io();
+
+    socket.on('connect', function() {
+        document.getElementById('salida').textContent += "Conectado al servidor\n";
+    });
+
+    socket.on('message', function(data) {
+        document.getElementById('salida').textContent += "Servidor: " + data + "\n";
+    });
+
+    socket.on('disconnect', function() {
+        document.getElementById('salida').textContent += "Desconectado\n";
+    });
+
+    function enviarMensaje() {
+        const msg = document.getElementById('mensaje').value;
+        socket.send(msg);
+        document.getElementById('salida').textContent += "Tú: " + msg + "\n";
+        document.getElementById('mensaje').value = "";
+    }
+</script>
+</body>
+</html>
